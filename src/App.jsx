@@ -1,9 +1,26 @@
-function App() {
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import Payment from './pages/Payment';
+import Header from './components/Header';
+import ScanPage from './pages/ScanPage';
+import AdminPage from "./pages/AdminPage";
+
+export default function App() {
   return (
-    <div className="min-h-screen bg-green-100 flex items-center justify-center">
-      <h1 className="text-3xl font-bold text-green-700">QuikCart 🚀 Tailwind is Working!</h1>
-    </div>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        
+        <Route path="/scan" element={<ScanPage />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </>
   );
 }
-
-export default App;
