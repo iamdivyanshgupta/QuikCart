@@ -1,10 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { db } from '../firebase';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 export default function Cart() {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCart();
+  const [loading, setLoading] = useState(false);
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  const placeOrders = async () => {
+    if (cart.length === 0) {
+      alert("🛒 Your cart is empty!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const orderPromises = cart.map((item) => {
+        if (!item.id || !item.name || item.price === undefined) {
+          throw new Error("Cart item is missing required fields.");
+        }
+
+        return addDoc(collection(db, 'orders'), {
+          productId: item.id,
+          productName: item.name,
+          price: item.price,
+          status: 'Pending',
+          timestamp: Timestamp.now(),
+        });
+      });
+
+      await Promise.all(orderPromises);
+      alert("🚗 Order placed!");
+      clearCart();
+    } catch (err) {
+      console.error("❌ Error placing order:", err);
+      alert("❌ Failed to place order: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -45,9 +81,22 @@ export default function Cart() {
                 <span>Total</span>
                 <span>₹{total}</span>
               </div>
+
+              <button
+                onClick={placeOrders}
+                className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+                disabled={loading}
+              >
+                {loading ? "Placing Order..." : "🚗 Deliver to Car"}
+              </button>
+
               <Link to="/payment">
-                <button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Proceed to Payment
+                <button
+                  onClick={placeOrders}
+                  className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "💳 Proceed to Payment"}
                 </button>
               </Link>
             </div>
