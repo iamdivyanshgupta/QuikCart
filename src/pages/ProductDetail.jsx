@@ -1,4 +1,3 @@
-// src/components/ProductDetail.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
@@ -34,7 +33,11 @@ export default function ProductDetail() {
   return (
     <div className="p-4 max-w-xl mx-auto">
       {product.imageUrl && (
-        <img src={product.imageUrl} alt={product.name} className="rounded shadow mb-4 w-full h-64 object-cover" />
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          className="rounded shadow mb-4 w-full h-64 object-cover"
+        />
       )}
 
       <h1 className="text-2xl font-bold text-green-700 mb-2">{product.name}</h1>
@@ -47,7 +50,10 @@ export default function ProductDetail() {
       </div>
 
       <div className="mt-6 flex gap-4">
-        <button className="bg-green-600 text-white px-4 py-2 rounded" onClick={handleAddToCart}>
+        <button
+          className="bg-green-600 text-white px-4 py-2 rounded"
+          onClick={handleAddToCart}
+        >
           🛒 Add to Cart
         </button>
       </div>
