@@ -21,7 +21,7 @@ export default function Header() {
     <>
       {/* Desktop Header */}
       <header className="hidden sm:flex bg-white shadow px-6 sm:px-20 py-3 justify-between items-center">
-        <Link to="/" className="text-xl font-bold text-green-600">QuikCart 🛒</Link>
+        <Link to="/" className="text-xl font-bold text-green-600">QuikKart 🛒</Link>
 
         <input
           type="text"

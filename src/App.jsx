@@ -7,6 +7,7 @@ import Payment from './pages/Payment';
 import Header from './components/Header';
 import ScanPage from './pages/ScanPage';
 import AdminPage from "./pages/AdminPage";
+import SeedDemo from './pages/seedDemo';
 
 export default function App() {
   return (
@@ -20,6 +21,8 @@ export default function App() {
         <Route path="/scan" element={<ScanPage />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/seed" element={<SeedDemo />} />
+
       </Routes>
     </>
   );
